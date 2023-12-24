@@ -4,13 +4,13 @@ from django.forms import ValidationError
 from rest_framework import serializers
 
 
-from .models import Shop
+from .models import Shop, Token
 
 
 class ShopLoginSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=256)
     password = serializers.CharField(max_length=256)
-    
+    device = serializers.CharField(max_length=256, default='None')
     
     def validate(self, attrs):
         val = super().validate(attrs)
@@ -36,3 +36,9 @@ class ShopSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
         exclude = ['password']
+
+
+class TokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Token
+        fields = '__all__'

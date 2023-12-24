@@ -7,8 +7,9 @@ import binascii, os
 
 class Token(models.Model):
     key = models.CharField(_("Key"), max_length=40, primary_key=True, editable=False)
-    shop = models.ForeignKey(Shop, related_name='auth_tokens', on_delete=models.CASCADE, verbose_name=_("User"))
-
+    shop = models.ForeignKey(Shop, related_name='auth_tokens', on_delete=models.CASCADE, verbose_name=_("Shop"))
+    device = models.CharField(_("Device"), max_length=256, default='None')
+    
     class Meta:
         verbose_name = _("Token")
         verbose_name_plural = _("Tokens")
