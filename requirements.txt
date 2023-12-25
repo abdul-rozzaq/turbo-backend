@@ -1,6 +1,17 @@
 asgiref==3.7.2
 Django==5.0
+django-user-agents==0.4.0
 djangorestframework==3.14.0
+environs==10.0.0
+Faker==21.0.0
+marshmallow==3.20.1
+packaging==23.2
 Pillow==10.1.0
+python-dateutil==2.8.2
+python-dotenv==1.0.0
 pytz==2023.3.post1
+PyYAML==6.0.1
+six==1.16.0
 sqlparse==0.4.4
+ua-parser==0.18.0
+user-agents==2.2.0
