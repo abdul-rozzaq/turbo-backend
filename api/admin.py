@@ -9,7 +9,5 @@ class TokenAdmin(admin.ModelAdmin):
     list_filter = ['shop']
     
 
-
-
 admin.site.register(Shop)
 admin.site.register(Token, TokenAdmin)

@@ -5,12 +5,12 @@ import json
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 
-from shop.models import Product
+from shop.models import MoneyHistory, Product
 
 
 from .authentication import TokenAuthentication
 from .models import Token, Shop
-from .serializers import ProductSerializer, ShopLoginSerializer, ShopSerializer, TokenSerializer
+from .serializers import MoneyHistorySerializer, ProductSerializer, ShopLoginSerializer, ShopSerializer, TokenSerializer
 
 
 @api_view(['POST'])
@@ -34,7 +34,7 @@ def login(request):
 def products(request):
     products = Product.objects.filter(shop=request.user)
     serializer = ProductSerializer(products, many=True)
-    
+
     return Response(serializer.data, status=200)
 
 
@@ -51,3 +51,34 @@ def delete_token(request, token_id):
     Token.objects.get(key=token_id).delete()
 
     return Response(status=204)
+
+
+@api_view(['GET'])
+# @authentication_classes([TokenAuthentication])
+def money_histories(request, pk):
+    product = Product.objects.get(pk=pk)
+    queryset = MoneyHistory.objects.filter(product=product)
+
+    serializer = MoneyHistorySerializer(queryset, many=True)
+    
+    response = serializer.data
+
+    filter = request.GET.get('filter')
+    
+    if filter:
+        result = {}
+
+        if filter == 'month':
+
+            for mh in queryset:
+                month = mh.created_at.month
+
+                if month not in result:
+                    result[month] = []
+
+                result[month].append(mh)
+
+        response = map(lambda x: MoneyHistorySerializer(x, context={'request': request}, many=True).data, result.values())
+
+
+    return Response(response, status=200)

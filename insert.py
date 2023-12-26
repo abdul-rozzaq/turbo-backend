@@ -4,30 +4,52 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
-# ================================================================= #
-from shop.models import Product, Shop
-from faker import Faker
-
 import random
+from faker import Faker
+from shop.models import MoneyHistory, Product, Shop
+
+# ================================================================= #
+
 
 fake = Faker()
 shops = Shop.objects.all()
 
 
-for _ in range(10):
-    Shop.objects.create(
-        name=fake.word(),
-        password=fake.word()
-    )
+# for _ in range(10):
+#     Shop.objects.create(
+#         name=fake.word(),
+#         password=fake.word()
+#     )
 
 
-for shop in Shop.objects.all():
+for product in Product.objects.all():
     for _ in range(10):
-        Product.objects.create(
-            shop=shop,
-            name=fake.word(),
-            price=random.randint(15, 150),
-            count=random.randint(20, 100) * 1000,
-            type=fake.random_element(elements=('1', '4', '2', '3'))
+        MoneyHistory.objects.create(
+            product=product,
+            count=random.randint(1, product.count)
         )
 
+# def ajratish(data):
+#     result = {}
+#     for item in data:
+#         item_type = item['type']
+#         if item_type not in result:
+#             result[item_type] = []
+#         result[item_type].append(item)
+#     return list(result.values())
+
+
+# data = [
+#     {'type': 'product'},
+#     {'type': 'shop'},
+#     {'type': 'product'},
+#     {'type': 'shop'},
+#     {'type': 'product'},
+#     {'type': 'product'},
+#     {'type': 'product'},
+#     {'type': 'shop'},
+#     {'type': 'product'},
+#     {'type': 'product'},
+# ]
+
+# print(ajratish(data))

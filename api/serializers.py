@@ -3,7 +3,7 @@
 from django.forms import ValidationError
 from rest_framework import serializers
 
-from shop.models import Product
+from shop.models import MoneyHistory, Product
 
 
 from .models import Shop, Token
@@ -53,3 +53,19 @@ class ProductSerializer(serializers.ModelSerializer):
         data['type'] = instance.get_type_display()
 
         return data
+
+
+
+class MoneyHistorySerializer(serializers.ModelSerializer):
+    total_price = serializers.FloatField()
+    
+    class Meta:
+        model = MoneyHistory
+        fields = '__all__'
+
+    # def to_representation(self, instance):
+    #     data = super().to_representation(instance)
+
+    #     data['type'] = instance.get_type_display()
+
+    #     return data
